@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
-import { View, Text, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Modal, View, Text, FlatList, TouchableOpacity } from 'react-native';
 import Card from '../shared/Card';
 import { globalStyles } from '../styles/global';
+import { MaterialIcons } from '@expo/vector-icons';
 
 export default function Home({ navigation }) {
+  const [modalOpen, setModalOpen] = useState(false);
   const [reviews, setReviews] = useState([
     { title: 'Zelda, Breath of Fresh Air', rating: 5, body: 'lorem ipsum', key: '1' },
     { title: 'Gotta Catch Them All (again)', rating: 4, body: 'lorem ipsum', key: '2' },
@@ -13,6 +15,27 @@ export default function Home({ navigation }) {
 
   return (
     <View style={globalStyles.container}>
+
+      <Modal
+        visible={modalOpen}
+      >
+        <View style={styles.modalContainer}>
+          <MaterialIcons
+            name="close"
+            size={24}
+            onPress={() => setModalOpen(false)}
+            style={{ ...styles.modalAdd, ...styles.modalClose }}
+          />
+          <Text style={styles.modalText}>Hi Im modal</Text>
+        </View>
+      </Modal>
+
+      <MaterialIcons
+        name="add"
+        size={24}
+        onPress={() => setModalOpen(true)}
+        style={styles.modalAdd}
+      />
       <FlatList
         data={reviews}
         renderItem={({ item }) => (
@@ -28,3 +51,26 @@ export default function Home({ navigation }) {
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  modalContainer: {
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  modalAdd: {
+    alignSelf: 'center',
+    borderWidth: 1,
+    borderColor: '#eee',
+    padding: 10,
+    margin: 10
+  },
+  modalClose: {
+    backgroundColor: '#eee'
+  },
+  modalText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textTransform: 'uppercase'
+  }
+});

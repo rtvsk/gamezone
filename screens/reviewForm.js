@@ -1,48 +1,45 @@
 import React from 'react';
-import { StyleSheet, View, Text, TextInput, Button } from 'react-native';
-import { globalStyles } from '../styles/global';
+import { Button, TextInput, View, Keyboard } from 'react-native';
+import { globalStyles } from '../styles/global.js';
 import { Formik } from 'formik';
 
-export default function ReviewForm() {
+export default function ReviewForm({ addReview }) {
   return (
     <View style={globalStyles.container}>
       <Formik
         initialValues={{ title: '', body: '', rating: '' }}
-        onSubmit={(values) => {
-         console.log(values);
+        onSubmit={(values, actions) => {
+          actions.resetForm(); 
+          addReview(values);
         }}
       >
-        {(formikProps) => (
+        {props => (
           <View>
             <TextInput
               style={globalStyles.input}
-              placeholder="Review Title"
-              onChange={formikProps.handleChange('title')}
-              value={formikProps.values.title}
+              placeholder='Review title'
+              onChangeText={props.handleChange('title')}
+              value={props.values.title}
             />
             <TextInput
+              style={globalStyles.input}
               multiline
+              placeholder='Review details'
+              onChangeText={props.handleChange('body')}
+              value={props.values.body}
+            />
+
+            <TextInput 
               style={globalStyles.input}
-              placeholder="Review Body"
-              onChange={formikProps.handleChange('body')}
-              value={formikProps.values.body}
+              placeholder='Rating (1 - 5)'
+              onChangeText={props.handleChange('rating')}
+              value={props.values.rating}
+              keyboardType='numeric'
             />
-            <TextInput
-              style={globalStyles.input}
-              placeholder="Rating (1 - 5)"
-              onChange={formikProps.handleChange('rating')}
-              value={formikProps.values.rating}
-              keyboardType="numeric"
-            />
-            <Button
-              style={{ width: 300 }}
-              title="submit"
-              color="maroon"
-              onPress={formikProps.handleSubmit}
-            />
+            <Button color='maroon' title="Submit" onPress={props.handleSubmit} /> 
           </View>
         )}
       </Formik>
-    </View>
-  )
+    </View>   
+  );
 }

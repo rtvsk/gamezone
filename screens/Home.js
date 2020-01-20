@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 
 import { StyleSheet, Modal, View, Text, FlatList, TouchableOpacity } from 'react-native';
 import Card from '../shared/Card';
+import ReviewForm from './reviewForm';
 import { globalStyles } from '../styles/global';
 import { MaterialIcons } from '@expo/vector-icons';
 
@@ -26,7 +27,7 @@ export default function Home({ navigation }) {
             onPress={() => setModalOpen(false)}
             style={{ ...styles.modalAdd, ...styles.modalClose }}
           />
-          <Text style={styles.modalText}>Hi Im modal</Text>
+          <ReviewForm />
         </View>
       </Modal>
 
